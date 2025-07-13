@@ -1,24 +1,23 @@
-from flask import Flask, request, render_template
+from flask import Flask, jsonify, render_template
+import random
 
 app = Flask(__name__)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+quotes = [
+    "Believe in yourself.",
+    "Stay curious, keep learning.",
+    "You were born to build cool stuff.",
+    "Fall seven times, stand up eight.",
+    "The best way to predict the future is to invent it."
+]
 
-@app.route('/search')
-def search():
-    query = request.args.get('q')
-    return f"You searched for: {query}"
+@app.route("/")
+def home():
+    return render_template("index.html")  # serve the frontend
 
-@app.route('/submit', methods=['GET', 'POST'])
-def submit():
-    if request.method == 'POST':
-        user = request.form['username']
-        return f"Welcome, {user}!"
-    return render_template('index.html')
-
-
+@app.route("/quote", methods=["GET"])
+def get_quote():
+    return jsonify({"quote": random.choice(quotes)})
 
 if __name__ == "__main__":
     app.run(debug=True)

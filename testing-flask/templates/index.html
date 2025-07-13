@@ -1,17 +1,63 @@
-<!doctype html>
-<html>
-  <head><title>Home</title></head>
-  <body>
-    <!-- templates/index.html
-    <form action="/search" method="GET">
-      <input type="text" name="q" placeholder="Search term">
-      <input type="submit" value="Search">
-    </form> -->
-    <!-- templates/index.html -->
-    <form action="/submit" method="POST">
-      <input type="text" name="username">
-      <input type="submit">
-    </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Motivational Quote Generator</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #eee;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
 
-  </body>
+    #quote-box {
+      border: 2px solid #eee;
+      padding: 30px;
+      max-width: 600px;
+      text-align: center;
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      min-height: 100px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="quote-box">Click the button to get a quote.</div>
+  <button onclick="getQuote()">Get Quote</button>
+
+  <script>
+    async function getQuote() {
+      try {
+        const res = await fetch("/quote");
+        const data = await res.json();
+        console.log("Received:", data);
+        document.getElementById("quote-box").innerText = data.quote;
+      } catch (err) {
+        console.error("Error fetching quote:", err);
+      }
+    }
+  </script>
+
+</body>
 </html>
